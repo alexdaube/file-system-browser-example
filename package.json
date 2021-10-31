@@ -1,0 +1,26 @@
+{
+  "name": "file-system-browser-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@types/eslint": "^7.28.2",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "lerna": "^4.0.0",
+    "prettier": "^2.4.1"
+  },
+  "scripts": {
+    "client": "yarn workspace @file-system-app/client",
+    "server": "yarn workspace @file-system-app/server",
+    "dev": "yarn client dev & yarn server dev --verbose",
+    "start": "yarn server start"
+  }
+}
