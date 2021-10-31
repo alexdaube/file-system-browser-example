@@ -8,5 +8,6 @@ export interface FileNode {
   path: string;
   type: FileType;
   level: number;
-  isLoaded: boolean;
+  isLoaded?: boolean;
+  isExpanded?: boolean;
 }

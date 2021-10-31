@@ -8,6 +8,8 @@ interface TreeItemRootProps {
   icon?: ReactNode;
   canExpand?: boolean;
   expanded?: boolean;
+  onExpand?: () => void;
+  level: number;
 }
 
 export function TreeItemRoot({
@@ -15,6 +17,8 @@ export function TreeItemRoot({
   icon,
   canExpand = false,
   expanded = false,
+  level,
+  onExpand,
 }: TreeItemRootProps): JSX.Element {
   const expandIcon = useMemo(() => {
     if (!canExpand) {
@@ -34,9 +38,12 @@ export function TreeItemRoot({
         gap: '8px',
         backgroundColor: '#f4f4f4',
         my: 0.5,
+        marginLeft: `${level * 8}px`,
       }}
     >
-      <Box sx={{ width: '24px' }}>{expandIcon}</Box>
+      <Box sx={{ width: '24px' }} onClick={onExpand}>
+        {expandIcon}
+      </Box>
       <Box sx={{ width: '24px' }}>{icon}</Box>
       <Box>{children}</Box>
     </Box>

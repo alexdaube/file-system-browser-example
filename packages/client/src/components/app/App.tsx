@@ -1,29 +1,56 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FileNode, FileType } from '../../domain/types';
 import FileSystemService from '../../services/FileSystemService';
-import { DirectoryTreeItem } from '../tree/DirectoryTreeItem';
-import { FileTreeItem } from '../tree/FileTreeItem';
-import { Box } from '@mui/material';
+import { TreeView } from '../tree/TreeView';
+
+function replaceInsertAt<T>(arr: T[], index: number, newItems: T[]): T[] {
+  const nextItem = index + 1;
+  const isLastItem = nextItem >= arr.length;
+
+  console.log(arr.length, nextItem, isLastItem);
+  console.log(arr.slice(0, index));
+  console.log(newItems);
+  console.log(isLastItem ? [] : arr.slice(index + 1));
+  return [
+    ...arr.slice(0, index),
+    ...newItems,
+    ...(isLastItem ? [] : arr.slice(nextItem)),
+  ];
+}
 
 export default function App(): JSX.Element {
   const [directory, setDirectory] = useState<FileNode[]>([]);
 
   useEffect(() => {
     (async () => {
-      const rootDirectoryNodes = await FileSystemService.get('.');
+      const rootDirectoryNodes = await FileSystemService.listDirectory({
+        path: '',
+        type: FileType.DIRECTORY,
+        name: 'root',
+        level: 0,
+        isLoaded: false,
+      });
       setDirectory(rootDirectoryNodes);
     })();
   }, []);
 
-  return (
-    <Box sx={{ border: '1px solid #f5f5f5', borderRadius: '4px ' }}>
-      {directory.map((fileNode) =>
-        fileNode.type === FileType.DIRECTORY ? (
-          <DirectoryTreeItem key={fileNode.path} node={fileNode} />
-        ) : (
-          <FileTreeItem key={fileNode.path} node={fileNode} />
-        ),
-      )}
-    </Box>
+  const handleNodeExpand = useCallback(
+    async (node: FileNode, index: number) => {
+      if (node.isLoaded) {
+        setDirectory(
+          replaceInsertAt(directory, index, [
+            { ...node, isExpanded: !node.isExpanded },
+          ]),
+        );
+      }
+
+      const directoryNodes = await FileSystemService.listDirectory(node);
+      console.log(index);
+
+      setDirectory(replaceInsertAt(directory, index, directoryNodes));
+    },
+    [directory],
   );
+
+  return <TreeView directory={directory} onExpandNode={handleNodeExpand} />;
 }

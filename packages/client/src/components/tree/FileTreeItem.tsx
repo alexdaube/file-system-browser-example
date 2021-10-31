@@ -9,7 +9,10 @@ interface FileTreeItemProps {
 
 export function FileTreeItem({ node }: FileTreeItemProps): JSX.Element {
   return (
-    <TreeItemRoot icon={<TextSnippetIcon sx={{ fill: 'grey' }} />} canExpand>
+    <TreeItemRoot
+      level={node.level}
+      icon={<TextSnippetIcon sx={{ fill: 'grey' }} />}
+    >
       {node.name}
     </TreeItemRoot>
   );
