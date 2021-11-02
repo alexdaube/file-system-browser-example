@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FileNode, FileType } from '../../domain/types';
 import FileSystemService from '../../services/FileSystemService';
 import { TreeView } from '../tree/TreeView';
+import { io } from 'socket.io-client';
 
 function replaceInsertAt<T>(arr: T[], index: number, newItems: T[]): T[] {
   const nextItem = index + 1;
@@ -33,6 +34,13 @@ export default function App(): JSX.Element {
       setDirectory(rootDirectoryNodes);
     })();
   }, []);
+
+  useEffect(() => {
+    const socket = io();
+    socket.on('directory change', (dir) => {
+      console.log(dir);
+    });
+  });
 
   const handleNodeExpand = useCallback(
     async (node: FileNode, index: number) => {

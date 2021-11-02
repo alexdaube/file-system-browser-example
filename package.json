@@ -24,6 +24,7 @@
   "scripts": {
     "client": "yarn workspace @file-system-app/client",
     "server": "yarn workspace @file-system-app/server",
+    "build": "yarn client build && yarn server build",
     "dev": "yarn client dev & yarn server dev --verbose",
     "start": "yarn server start",
     "test": "jest"

@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import { lstatSync } from 'fs';
+import { join, isAbsolute } from 'path';
 import { Dree, ScanOptions, scanAsync } from 'dree';
 
 class RootDirectory {
@@ -37,13 +37,13 @@ class RootDirectory {
     defaultRootDirectory: string,
   ): string => {
     const absolutePath =
-      paths.find((argument: string) => path.isAbsolute(argument)) ??
+      paths.find((argument: string) => isAbsolute(argument)) ??
       defaultRootDirectory;
     const relativePaths = paths.filter(
-      (argument: string) => !path.isAbsolute(argument),
+      (argument: string) => !isAbsolute(argument),
     );
 
-    return path.join(absolutePath, ...relativePaths);
+    return join(absolutePath, ...relativePaths);
   };
 
   private extractValidDirectoryPaths = (paths: string[]): string[] => {
@@ -54,7 +54,7 @@ class RootDirectory {
 
   private isDirectory = (path): boolean => {
     try {
-      const stat = fs.lstatSync(path);
+      const stat = lstatSync(path);
       return stat.isDirectory();
     } catch (e) {
       return false;
