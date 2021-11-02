@@ -7,7 +7,7 @@ export interface FileNode {
   name: string;
   path: string;
   type: FileType;
-  level: number;
-  isLoaded?: boolean;
-  isExpanded?: boolean;
+  nestingLevel: number;
+  loaded?: boolean;
+  opened?: boolean;
 }

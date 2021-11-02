@@ -5,12 +5,14 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 
 interface FileTreeItemProps {
   node: FileNode;
+  style?: React.CSSProperties;
 }
 
-export function FileTreeItem({ node }: FileTreeItemProps): JSX.Element {
+export function FileTreeItem({ node, style }: FileTreeItemProps): JSX.Element {
   return (
     <TreeItemRoot
-      level={node.level}
+      style={style}
+      level={node.nestingLevel}
       icon={<TextSnippetIcon sx={{ fill: 'grey' }} />}
     >
       {node.name}

@@ -10,6 +10,7 @@ interface TreeItemRootProps {
   expanded?: boolean;
   onExpand?: () => void;
   level: number;
+  style?: React.CSSProperties;
 }
 
 export function TreeItemRoot({
@@ -19,6 +20,7 @@ export function TreeItemRoot({
   expanded = false,
   level,
   onExpand,
+  style,
 }: TreeItemRootProps): JSX.Element {
   const expandIcon = useMemo(() => {
     if (!canExpand) {
@@ -30,6 +32,7 @@ export function TreeItemRoot({
 
   return (
     <Box
+      style={style}
       sx={{
         display: 'flex',
         flexDirection: 'row',

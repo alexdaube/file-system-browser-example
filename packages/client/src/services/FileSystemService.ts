@@ -9,7 +9,7 @@ class FileSystemService {
 
     const jsonResponse = await response.json();
 
-    return FileNodeAssembler.toDomainAsList(jsonResponse, node.level);
+    return FileNodeAssembler.toDomainAsList(jsonResponse, node.nestingLevel);
   }
 }
 

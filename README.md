@@ -68,5 +68,5 @@ yarn start /user/code/my-other-project
 #### With both an absolute path and a relative path
 ```bash
 // Will open with "/user/code/my-other-project" as the root directory
-yarn start /user/code/my-other-project/dir ..
+yarn start /user/code/my-other-project/other-dir ..
 ```

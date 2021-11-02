@@ -13,9 +13,9 @@ class FileNodeAssembler {
       name: dto.name,
       path: dto.path,
       type: dto.type as FileType,
-      isLoaded: !!dto.children || dto.type !== FileType.DIRECTORY,
-      isExpanded: false,
-      level,
+      loaded: !!dto.children || dto.type !== FileType.DIRECTORY,
+      opened: false,
+      nestingLevel: level,
     };
   }
 

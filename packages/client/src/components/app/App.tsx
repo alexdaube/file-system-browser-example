@@ -3,6 +3,7 @@ import { FileNode, FileType } from '../../domain/types';
 import FileSystemService from '../../services/FileSystemService';
 import { TreeView } from '../tree/TreeView';
 import { io } from 'socket.io-client';
+import FileSystemTree from '../../domain/FileSystemTree';
 
 function replaceInsertAt<T>(arr: T[], index: number, newItems: T[]): T[] {
   const nextItem = index + 1;
@@ -19,6 +20,8 @@ function replaceInsertAt<T>(arr: T[], index: number, newItems: T[]): T[] {
   ];
 }
 
+const tree = new FileSystemTree([]);
+
 export default function App(): JSX.Element {
   const [directory, setDirectory] = useState<FileNode[]>([]);
 
@@ -28,8 +31,8 @@ export default function App(): JSX.Element {
         path: '',
         type: FileType.DIRECTORY,
         name: 'root',
-        level: 0,
-        isLoaded: false,
+        nestingLevel: 0,
+        loaded: false,
       });
       setDirectory(rootDirectoryNodes);
     })();
@@ -44,10 +47,10 @@ export default function App(): JSX.Element {
 
   const handleNodeExpand = useCallback(
     async (node: FileNode, index: number) => {
-      if (node.isLoaded) {
+      if (node.loaded) {
         setDirectory(
           replaceInsertAt(directory, index, [
-            { ...node, isExpanded: !node.isExpanded },
+            { ...node, opened: !node.opened },
           ]),
         );
       }
@@ -60,5 +63,11 @@ export default function App(): JSX.Element {
     [directory],
   );
 
-  return <TreeView directory={directory} onExpandNode={handleNodeExpand} />;
+  return (
+    <TreeView
+      directory={directory}
+      onExpandNode={handleNodeExpand}
+      tree={tree}
+    />
+  );
 }
